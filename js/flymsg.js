@@ -44,20 +44,17 @@
             return index != -1 ? true : false;
           },
           add: function (cls) {
-            console.log('add');
             if (!this.contains(cls)) {
               _self.className += ' ' + cls;
             }
           },
           remove: function (cls) {
-            console.log('remove');
             if (this.contains(cls)) {
               var reg = new RegExp(cls);
               _self.className = _self.className.replace(reg, '');
             }
           },
           toggle: function (cls) {
-            console.log('toggle');
             if (this.contains(cls)) {
               this.remove(cls);
             } else {
@@ -172,15 +169,17 @@
    */
   var G_STATES = {
     OPENING: 'flymsgMovein',
-    CLOSING: 'flymsgMoveout',
-    DONE: ''
+    OPENING2: 'flymsgMovein2',
+    CLOSING: 'flymsgMoveout'
   }
 
   /**
    * position: 
+   * @type Object
+   * @defalut
    */
   var G_DEFALUTS = Object.assign({
-    position: 'top center',
+    position: 'center',
     type: 'info',
     showClose: false,
     timeout: 2000,
@@ -189,7 +188,8 @@
     content: '',
     onClose: null,
     maxNum: 5,
-    html: false
+    html: false,
+    animationMode: 'TopToBottom'  // TopToBottom, BottomToTop
   }, exports && exports.FLYMSG && exports.FLYMSG.FM_SETTINGS && exports.FLYMSG.FM_SETTINGS.defaluts || {});
 
   /**
@@ -250,15 +250,34 @@
     contianerEl.classList.add(namespacify('box'));
     contianerEl.style.textAlign = _this.settings.position;
     var wrapperEl = document.querySelector('.'+G_NAMESPACE);
+    var wrapperEl2 = document.querySelector('.'+namespacify('wrapper2'));
     if (!wrapperEl) {
       wrapperEl = document.createElement('div');
-      wrapperEl.classList.add(G_NAMESPACE, namespacify('wrapper'), namespacify('is-init'));
+      wrapperEl.classList.add(G_NAMESPACE, namespacify('wrapper'));
       document.body.appendChild(wrapperEl);
     }
-    wrapperEl.appendChild(contianerEl);
-    _this.wrapperEl = wrapperEl;
+    if (!wrapperEl2) {
+      wrapperEl2 = document.createElement('div');
+      wrapperEl2.classList.add(G_NAMESPACE, namespacify('wrapper2'));
+      document.body.appendChild(wrapperEl2);
+    }
+    
+    if (_this.settings.animationMode === 'BottomToTop') {
+      wrapperEl2.insertBefore(contianerEl, wrapperEl2.children[0]);
+      _this.wrapperEl = wrapperEl2;
+    } else {
+      wrapperEl.appendChild(contianerEl);
+      _this.wrapperEl = wrapperEl;
+    }
+    
     _this.contianerEl = contianerEl;
-    setState(_this, 'OPENING');
+    
+    if (_this.settings.animationMode === 'BottomToTop') {
+      setState(_this, 'OPENING2');
+    } else {
+      setState(_this, 'OPENING');
+    }
+    
     if (_this.settings.showClose) {
       contianerEl.querySelector('.flymsg-icon-close').addEventListener('click', function () {
         _this.close();
@@ -330,7 +349,8 @@
   }
 
   /**
-   * @description
+   * @description Logic for processing message generation
+   * @param {Object} opt: Configuration parameters for messages
    */
   function handleMsg (opt) {
     var ins;
@@ -413,7 +433,7 @@
     remove: function (instanceId) {
       instanceArr[instanceId] && delete instanceArr[instanceId];
     },
-    reset: function (content, opt) {
+    reset: function () {
       for (var i in instanceArr) {
         instanceArr[i] && instanceArr[i].instance.close();
       }

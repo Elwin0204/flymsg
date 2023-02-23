@@ -11,12 +11,30 @@
   <button onclick="triggerMsg()">测试</button>
   <script src="./js/flymsg.js"></script>
   <script>
+      var index = 0;
+
     function triggerMsg () {
+      index++;
+      // FLYMSG.info('测试'+index, {
+      //   html: false,
+      //   timeout: 3000,
+      //   animationMode: 'BottomToTop'
+      // })
       console.log(123);
-      FLYMSG.loading('测试', {
-        html: false,
-        // timeout: 3000
-      })
+      if (index % 2 === 0) {
+        FLYMSG.info('测试', {
+          html: false,
+          timeout: 3000,
+          animationMode: 'BottomToTop'
+        })
+      } else {
+        FLYMSG.info('测试', {
+          html: false,
+          timeout: 3000,
+          // animationMode: 'BottomToTop'
+        })
+      }
+      
     }
   </script>
 </body>

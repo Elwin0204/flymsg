@@ -16,6 +16,25 @@
   pointer-events: none;
 }
 
+.flymsg.flymsg-wrapper2 {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, .55);
+  font-size: 13px;
+  font-variant: tabular-nums;
+  line-height: 1;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: fixed;
+  bottom: 16px;
+  left: 0;
+  z-index: 1010;
+  width: 100%;
+  pointer-events: none;
+}
+
+
 .flymsg .flymsg-box {
   padding: 8px;
   text-align: center;
@@ -88,7 +107,7 @@
   font-size: 16px;
 }
 
-.qmflymsgsg .flymsg-icon svg {
+.flymsg .flymsg-icon svg {
   display: inline-block;
 }
 
@@ -170,13 +189,13 @@
   0% {
     max-height: 150px;
     padding: 8px;
-    opacity: 1
+    opacity: 1;
   }
 
   to {
     max-height: 0;
     padding: 0;
-    opacity: 0
+    opacity: 0;
   }
 }
 
@@ -184,13 +203,13 @@
   0% {
     max-height: 150px;
     padding: 8px;
-    opacity: 1
+    opacity: 1;
   }
 
   to {
     max-height: 0;
     padding: 0;
-    opacity: 0
+    opacity: 0;
   }
 }
 
@@ -200,13 +219,13 @@
   0% {
     transform: translateY(-100%);
     transform-origin: 0 0;
-    opacity: 0
+    opacity: 0;
   }
 
   to {
     transform: translateY(0);
     transform-origin: 0 0;
-    opacity: 1
+    opacity: 1;
   }
 }
 
@@ -214,13 +233,42 @@
   0% {
     transform: translateY(-100%);
     transform-origin: 0 0;
-    opacity: 0
+    opacity: 0;
   }
 
   to {
     transform: translateY(0);
     transform-origin: 0 0;
-    opacity: 1
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes flymsgMovein2 {
+
+  0% {
+    transform: translateY(100%);
+    transform-origin: 0 0;
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    transform-origin: 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes flymsgMovein2 {
+  0% {
+    transform: translateY(100%);
+    transform-origin: 0 0;
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    transform-origin: 0 0;
+    opacity: 1;
   }
 }
 
